@@ -1,0 +1,24 @@
+version: "3.8.8"
+services:
+  app:
+    image : "python:3.8.8"
+    container_name : "app_container"
+    volumes:
+      - ./:/repo
+    environment:
+      - FLASK_ENV=/development
+      - FLASK_APP=/repo/src/app.py
+      - DATABASE=/repo/test.db
+    ports:
+      - 5000:5000
+    
+    entrypoint: > 
+      bash -c "pip install -r /repo/requirements.txt && flask run"
+
+  db:
+    image : nouchka/sqlite3:latest
+    container_name  : "db_container"
+    stdin_open : true
+    tty : true
+    volumes :
+    - ./:/repo
