@@ -1,8 +1,8 @@
 FROM python:3.8
 
 # image의 메타데이터를 설정한다.
-LABEL email="dini@socar.kr"
-LABEL name="dini"
+LABEL email="myemail@gmail.com"
+LABEL name="me"
 
 # local . -> container /app 복사
 COPY . /app 
