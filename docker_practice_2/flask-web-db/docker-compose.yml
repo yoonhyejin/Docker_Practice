@@ -1,15 +1,18 @@
 version: "3"
 services:
   db:
-    image : nouchka/sqlite3:latest # mysql, postgres 같은 좀더 보편적인 image로 바꿔보기. 
-    container_name  : "db_container"
+    image: mysql:latest 
+    container_name: "db_container"
     stdin_open : true
     tty : true
-    volumes :
+    volumes:
       - ./:/app
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports: 
+      - "30000:3306"
   
   app:
-    # image : "python:3.8"
     # links : # 다른 서비스 접근 가능 
     #  - db 
     depends_on: # 다른 서비스 먼저 실행
@@ -18,9 +21,9 @@ services:
     volumes:
       - ./:/app
     build : . # 도커파일 경로 지정
+    # command : bash -c python /app/src/app.py # Dockerfile CMD overriding !! 
     environment: # 환경 변수 설정
       - FLASK_ENV=/development
-      - FLASK_APP=/app/src/app.py
-      # - DATABASE=/app/test.db  # create local DB within app_container -> 충돌 가능성은 낮음
+      - FLASK_APP=/app/src/app.py 
     ports:
       - 5000:5000
