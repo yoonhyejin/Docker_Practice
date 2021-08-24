@@ -10,6 +10,9 @@ PyMySQL = "^1.0.2"
 Flask = "^2.0.1"
 mysqlclient = "^2.0.3"
 mysql-connector-python = "^8.0.26"
+Flask-SQLAlchemy = "^2.5.1"
+cryptography = "^3.4.7"
+Flask-Migrate = "^3.1.0"
 
 [tool.poetry.dev-dependencies]
 
