@@ -1,15 +1,17 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from model.model import Todo
 import config
-#import pymysql
-
-#pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = config.alchemy_uri()
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 db = SQLAlchemy(app)
+migrate = Migrate()
+db.init_app(app)
+migrate.init_app(app, db)
 
 class Todo(db.Model): # Initialize DB model
     id = db.Column(db.Integer, primary_key=True)
