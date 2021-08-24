@@ -1,24 +1,26 @@
-version: "3.8.8"
+version: "3"
 services:
-  app:
-    image : "python:3.8.8"
-    container_name : "app_container"
-    volumes:
-      - ./:/repo
-    environment:
-      - FLASK_ENV=/development
-      - FLASK_APP=/repo/src/app.py
-      - DATABASE=/repo/test.db
-    ports:
-      - 5000:5000
-    
-    entrypoint: > 
-      bash -c "pip install -r /repo/requirements.txt && flask run"
-
   db:
-    image : nouchka/sqlite3:latest
+    image : nouchka/sqlite3:latest # mysql, postgres 같은 좀더 보편적인 image로 바꿔보기. 
     container_name  : "db_container"
     stdin_open : true
     tty : true
     volumes :
-    - ./:/repo
+      - ./:/app
+  
+  app:
+    # image : "python:3.8"
+    # links : # 다른 서비스 접근 가능 
+    #  - db 
+    depends_on: # 다른 서비스 먼저 실행
+      - db
+    container_name : "app_container"
+    volumes:
+      - ./:/app
+    build : . # 도커파일 경로 지정
+    environment: # 환경 변수 설정
+      - FLASK_ENV=/development
+      - FLASK_APP=/app/src/app.py
+      # - DATABASE=/app/test.db  # create local DB within app_container -> 충돌 가능성은 낮음
+    ports:
+      - 5000:5000
