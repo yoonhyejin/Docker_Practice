@@ -28,7 +28,7 @@ with models.DAG(
         task_id="t1",
         python_callable=insert_data,
         op_kwargs={
-            'url' : 'http://0.0.0.0:5000/insert',
+            'url' : 'http://localhost:5000/insert',
             'text': 'first data using airflow'
             }
     )
