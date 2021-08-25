@@ -8,8 +8,8 @@ services:
     volumes:
       - ./:/app
     environment:
-      - MYSQL_DATABASE: 'test_db'
-      - MYSQL_HOST: 'db:3306'
+      MYSQL_DATABASE: 'test_db'
+      MYSQL_HOST: 'db:3306'
 
       # docker hub 문서 참고하여 env var 설정하면 초기 유저로 만들어주는 것 있음. 
       # 유저를 따로 만들기. (root로 접속하지 말고. 새로 권한 .,,)
