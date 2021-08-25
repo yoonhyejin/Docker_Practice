@@ -1,13 +1,16 @@
 import os
 
 mysql_config = {
-	# os.getenv 문법으로 바꾸자.
-	# compose 파일에 environment 변수 지정 
+	### local ### 
+	# 'host' : os.getenv('MYSQL_HOST', 'localhost'), # localhost 대신 service name으로 간다  
+	# 'pass': os.getenv('MYSQL_PASS', ''),
+
+	### docker ### 
 	'host': os.getenv('MYSQL_HOST', 'db:3306'), # localhost 대신 service name으로 간다  
-	#'host' : os.getenv('MYSQL_HOST', 'localhost'), # localhost 대신 service name으로 간다  
-	'user': os.getenv('MYSQL_USER', 'root'),
 	'pass': os.getenv('MYSQL_PASS', 'root'),
-	#'pass': os.getenv('MYSQL_PASS', ''),
+
+	### 공통 ### 
+	'user': os.getenv('MYSQL_USER', 'root'),
 	'db':   os.getenv('MYSQL_DB', 'test_db'),
 }
 

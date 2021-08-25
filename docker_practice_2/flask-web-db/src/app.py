@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from model.model import Todo
+from model.model import test_table
 import config
 
 app = Flask(__name__)
@@ -11,20 +11,14 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 migrate = Migrate()
 db.init_app(app)
-migrate.init_app(app, db)
+db.create_all() 
 
-class Todo(db.Model): # Initialize DB model
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(200), nullable=False)
-    
-    def __repr__(self):
-        return 'Task %r' % self.id # 새로 생성할때마다 task id를 리턴한다
+migrate.init_app(app, db)
 
 @app.route('/insert', methods = ['POST'] )
 def insert_data():
-    id_data = request.args.get("id")
     text_data = request.args.get("text")
-    new_task = Todo(id=id_data, text=text_data)
+    new_task = test_table(text=text_data)
 
     try:
         db.session.add(new_task)
@@ -33,17 +27,13 @@ def insert_data():
     except:
         return "There was an issue adding your task."
 
-
-
-
 @app.route('/api', methods = ['GET'])
 def get_data():
-    data = Todo.query.all()
+    data = test_table.query.all()
     return render_template("api.html", data=data)
 
 @app.route('/', methods=['GET'])
 def index(): 
-    # return render_template('index.html')
     return "Hello World on Docker!"
 
 if __name__ == "__main__":
