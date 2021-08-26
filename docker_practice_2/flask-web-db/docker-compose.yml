@@ -14,17 +14,25 @@ services:
 
     ports: 
       - "30000:3306"
+
+    networks:
+      - external-example
   
   app:
     depends_on: # 다른 서비스 먼저 실행
       - db
-    container_name : "app_container"
+    container_name: "app_container"
     volumes:
       - ./:/app
-    build : . # 도커파일 경로 지정
-
+    build: . # 도커파일 경로 지정
     environment: # 환경 변수 설정
       - FLASK_ENV=/development
-      - FLASK_APP=/app/src/app.py 
+      - FLASK_APP=/app/src/app.py
     ports:
       - 5000:5000
+    networks:
+      - external-example
+
+networks: 
+  external-example:
+    driver: bridge
