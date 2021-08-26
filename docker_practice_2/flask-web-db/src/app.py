@@ -17,9 +17,9 @@ migrate.init_app(app, db)
 
 @app.route('/insert', methods = ['POST'] )
 def insert_data():
-    text_data = request.args.get("text")
+    #text_data = request.args.get("text") # url parameter
+    text_data = request.json["text"] # json dictionary
     new_task = test_table(text=text_data)
-
     try:
         db.session.add(new_task)
         db.session.commit()
