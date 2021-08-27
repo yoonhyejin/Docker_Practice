@@ -8,7 +8,7 @@ from pendulum import timezone
 
 def insert_data(url, text):
     datas = { 'text' : text }
-    requests.post(url=url, data=datas)
+    requests.post(url=url, json=datas)
 
 with models.DAG(
     dag_id="test_dag",
@@ -28,7 +28,7 @@ with models.DAG(
         task_id="t1",
         python_callable=insert_data,
         op_kwargs={
-            'url' : 'http://localhost:5000/insert',
+            'url' : 'http://app:5000/insert',
             'text': 'first data using airflow'
             }
     )
